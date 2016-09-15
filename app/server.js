@@ -3,21 +3,31 @@ var app = express()   //en app tengo el objeto que representa al servidor expres
 
 var port = process.env.PORT || 8080  // establecemos nuestro puerto
 
-app.get('/', function(req, res) {
-  res.json({ mensaje: '¡Hola Mundo!' })   
+// para establecer las distintas rutas, necesitamos instanciar el express router
+var router = express.Router()             
+
+//establecemos nuestra primera ruta, mediante get.
+router.get('/', function(req, res) {
+  res.json({ mensaje: '¡Bienvenido a nuestra API!' })  
 })
 
-app.get('/cervezas', function(req, res) {
-  res.json({ mensaje: '¡A beber cerveza!' })  
+//body-parser es un middleware
+var bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+
+router.post('/',function(req,res) { 
+  res.json({mensaje: req.body.nombre})  
 })
 
-app.post('/', function(req, res) {
-  res.json({ mensaje: 'Método post' })   
+
+router.get('/:nombre', function(req, res) {
+  res.json({ mensaje: '¡Hola' + req.params.nombre })   
 })
 
-app.del('/', function(req, res) {
-  res.json({ mensaje: 'Método delete' })  
-})
+// nuestra ruta irá en http://localhost:8080/api
+// es bueno que haya un prefijo, sobre todo por el tema de versiones de la API
+app.use('/api', router)
 
 // iniciamos nuestro servidor
 app.listen(port)
