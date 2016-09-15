@@ -1,20 +1,22 @@
-  var router = require('express').Router()
-  router.get('/search', function(req, res) {
-    res.json({ message: 'Vas a buscar una cerveza' })
-  })
-  router.get('/', function(req, res) {
-    res.json({ message: 'Estás conectado a la API. Recurso: cervezas' })
-  })
-  router.get('/:id', function(req, res) {
-    res.json({ message: 'Vas a obtener la cerveza con id ' + req.params.id })
-  })
-  router.post('/', function(req, res) {
-    res.json({ message: 'Vas a añadir una cerveza' })
-  })
-  router.put('/:id', function(req, res) {
-    res.json({ message: 'Vas a actualizar la cerveza con id ' + req.params.id })
-  })
-  router.delete('/:id', function(req, res) {
-    res.json({ message: 'Vas a borrar la cerveza con id ' + req.params.id})
-  })
-  module.exports = router
+var router = require('express').Router()
+var cervezasController = require ('../controllers/cervezasController')
+
+router.get('/search', function(req, res) {
+  cervezasController.search(req, res)
+})
+router.get('/', function(req, res) {
+  cervezasController.list(req, res)
+})
+router.get('/:id', function(req, res) {
+  cervezasController.show(req, res)
+})
+router.post('/', function(req, res) {
+  cervezasController.create(req, res)
+})
+router.put('/:id', function(req, res) {
+  cervezasController.update(req, res)
+})
+router.delete('/:id', function(req, res) {
+  cervezasController.remove(req, res)
+})
+module.exports = router
